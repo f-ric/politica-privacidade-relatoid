@@ -190,7 +190,7 @@
                 <span class="brand-name">Relatoid</span>
             </div>
             <h1>Política de Privacidade</h1>
-            <p class="meta">Última atualização: 14 de maio de 2026</p>
+            <p class="meta">Última atualização: 2 de junho de 2026</p>
         </header>
 
         <p>
@@ -216,10 +216,13 @@
             <li><strong>Fotos da câmera</strong>: capturadas quando o usuário toca no botão de câmera dentro do aplicativo.</li>
             <li><strong>Fotos da galeria</strong>: selecionadas exclusivamente pelo usuário através do seletor nativo do Android.</li>
             <li><strong>Textos digitados pelo usuário</strong>: títulos de relatório, comentários de fotos, dados de capa (empresa, autor, data, etc.) e nomes de seções/pares antes-depois.</li>
+            <li><strong>Áudio do microfone</strong>: usado <strong>apenas</strong> durante o ditado por voz no campo de comentário, processado em tempo real pelo reconhecimento de voz do próprio Android. O áudio não é gravado nem armazenado pelo aplicativo.</li>
+            <li><strong>Conta do Google</strong> (opcional): caso o usuário ative o backup no Google Drive, o aplicativo solicita autorização para acessar a conta escolhida e exibe o e-mail dessa conta apenas para identificá-la na tela de backup.</li>
         </ul>
         <p>
-            Não coletamos nome, e-mail, telefone, localização, identificadores de publicidade,
-            contatos, microfone, dados de saúde, dados financeiros, nem qualquer informação biométrica.
+            Não coletamos telefone, localização, identificadores de publicidade, contatos, dados de
+            saúde, dados financeiros, nem qualquer informação biométrica. O e-mail e o áudio acima são
+            usados estritamente para as funções descritas e não são transmitidos a nós.
         </p>
 
         <h2><span class="num">3.</span>Como esses dados são armazenados</h2>
@@ -234,9 +237,11 @@
         </ul>
         <div class="callout">
             <p>
-                <strong>Nenhum dado é enviado a servidores externos.</strong> O aplicativo não possui
-                backend próprio nem se conecta a serviços online para sincronização, análise ou
-                armazenamento em nuvem.
+                <strong>O Relatoid não possui servidor próprio nem backend.</strong> Não enviamos seus
+                dados para nós nem para terceiros. A única exceção é o <strong>backup no Google
+                Drive</strong>, opcional e ativado pelo próprio usuário, no qual os dados vão
+                diretamente do dispositivo para a <strong>conta Google do próprio usuário</strong>
+                (ver seções 4 e 5).
             </p>
         </div>
 
@@ -250,61 +255,93 @@
             <li><strong>Salvar em Downloads</strong>: salva o PDF na pasta pública de Downloads do dispositivo.</li>
             <li><strong>Exportar backup (ZIP)</strong>: gera um arquivo contendo relatórios e fotos para envio/armazenamento manual pelo usuário.</li>
             <li><strong>Salvar imagens na galeria</strong>: copia fotos do relatório para a galeria pública do dispositivo.</li>
+            <li><strong>Backup no Google Drive</strong>: quando ativado pelo usuário, envia um arquivo ZIP de backup para a conta Google dele. Ver detalhes na seção 6.</li>
         </ul>
         <p>
-            Em todos esses casos, a transferência é iniciada manualmente pelo usuário, e o Relatoid
-            não tem controle sobre os aplicativos ou serviços de destino escolhidos.
+            Em todos esses casos, a transferência é iniciada ou autorizada pelo próprio usuário, e o
+            Relatoid não tem controle sobre os aplicativos ou serviços de destino escolhidos. Em
+            nenhuma hipótese os dados são enviados para o desenvolvedor.
         </p>
 
         <h2><span class="num">5.</span>Permissões solicitadas</h2>
         <ul>
             <li><strong>Câmera</strong> (<code>android.permission.CAMERA</code>): necessária para tirar fotos dentro do aplicativo.</li>
+            <li><strong>Microfone</strong> (<code>android.permission.RECORD_AUDIO</code>): usada apenas durante o ditado por voz no campo de comentário; o áudio não é gravado nem armazenado.</li>
             <li><strong>Acesso a fotos/mídia</strong>: utilizado o seletor moderno de mídia do Android (Photo Picker), que <strong>não exige permissão de leitura de armazenamento</strong>.</li>
             <li><strong>Armazenamento</strong> (apenas em versões antigas do Android): pode ser solicitado para salvar PDFs na pasta pública de Downloads.</li>
+            <li><strong>Internet e estado da rede</strong> (<code>INTERNET</code>, <code>ACCESS_NETWORK_STATE</code>): usadas exclusivamente para o backup no Google Drive, quando ativado pelo usuário.</li>
+            <li><strong>Serviço em primeiro plano</strong> (<code>FOREGROUND_SERVICE</code>, <code>FOREGROUND_SERVICE_DATA_SYNC</code>): permite que o envio do backup continue mesmo com o aplicativo minimizado.</li>
+            <li><strong>Notificações</strong> (<code>POST_NOTIFICATIONS</code>): exibe o progresso do backup em andamento.</li>
         </ul>
 
-        <h2><span class="num">6.</span>Crianças</h2>
+        <h2><span class="num">6.</span>Backup no Google Drive e uso de APIs do Google</h2>
+        <p>
+            O backup no Google Drive é <strong>opcional</strong> e só funciona depois que o usuário
+            conecta a própria conta e autoriza o acesso. Quando ativado:
+        </p>
+        <ul>
+            <li>Um arquivo ZIP contendo os relatórios e fotos é enviado <strong>diretamente do dispositivo para a conta Google do próprio usuário</strong>.</li>
+            <li>Os backups ficam em uma <strong>pasta privada e oculta do aplicativo</strong> no Drive (<code>appDataFolder</code>), inacessível a outros aplicativos e não visível na interface normal do Google Drive.</li>
+            <li>O aplicativo solicita <strong>somente</strong> o escopo <code>drive.appdata</code> — ou seja, <strong>não tem acesso</strong> aos demais arquivos, fotos ou documentos do seu Google Drive.</li>
+            <li>O usuário pode desconectar a conta a qualquer momento, e pode excluir os backups diretamente pelo aplicativo ou pela própria conta Google.</li>
+        </ul>
+        <div class="callout">
+            <p>
+                O uso pelo Relatoid das informações recebidas das APIs do Google adere à
+                <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener">Política de Dados do Usuário dos Serviços de API do Google</a>,
+                incluindo os requisitos de <strong>Uso Limitado</strong> (<em>Limited Use</em>). Os dados
+                acessados via Google Drive são usados <strong>exclusivamente</strong> para oferecer e
+                restaurar o backup ao próprio usuário; não são vendidos, não são usados para
+                publicidade e não são compartilhados com terceiros.
+            </p>
+        </div>
+
+        <h2><span class="num">7.</span>Crianças</h2>
         <p>
             O Relatoid não se destina a crianças menores de 13 anos e não coleta intencionalmente
             dados de crianças.
         </p>
 
-        <h2><span class="num">7.</span>Análise, publicidade e cookies</h2>
+        <h2><span class="num">8.</span>Análise, publicidade e cookies</h2>
         <p>
             O Relatoid <strong>não utiliza</strong> ferramentas de análise (Google Analytics,
             Firebase Analytics, etc.), <strong>não exibe anúncios</strong> e <strong>não usa
-            cookies</strong>. Não há SDKs de terceiros responsáveis pela coleta de dados embutidos
-            no aplicativo.
+            cookies</strong>. O aplicativo utiliza os serviços do Google (Google Play Services e
+            Google Drive) apenas para autenticação e backup na conta do usuário — nunca para coleta
+            de dados, rastreamento ou publicidade.
         </p>
 
-        <h2><span class="num">8.</span>Seus direitos (LGPD)</h2>
+        <h2><span class="num">9.</span>Seus direitos (LGPD)</h2>
         <p>
             Como todos os dados ficam apenas no seu dispositivo, você tem controle direto sobre eles:
         </p>
         <ul>
             <li><strong>Acessar</strong>: abra qualquer relatório dentro do aplicativo.</li>
             <li><strong>Corrigir</strong>: edite títulos, comentários e fotos a qualquer momento.</li>
-            <li><strong>Excluir</strong>: remova relatórios individualmente, ou desinstale o aplicativo para apagar todos os dados associados.</li>
+            <li><strong>Excluir</strong>: remova relatórios individualmente, ou desinstale o aplicativo para apagar todos os dados associados. Se usou o backup no Drive, desconecte a conta e exclua os backups pelo aplicativo ou pela sua conta Google.</li>
             <li><strong>Exportar (portabilidade)</strong>: use a função "Exportar backup" para gerar um arquivo ZIP com seus dados.</li>
         </ul>
         <p>
-            Como não há coleta remota, <strong>não há dados nossos para você solicitar a remoção</strong>
-            além dos que já estão sob seu controle local. Caso tenha dúvidas, contate o e-mail acima.
+            Como não há coleta remota por nós, <strong>não há dados nossos para você solicitar a
+            remoção</strong> além dos que já estão sob seu controle local ou na sua própria conta
+            Google. Caso tenha dúvidas, contate o e-mail acima.
         </p>
 
-        <h2><span class="num">9.</span>Segurança</h2>
+        <h2><span class="num">10.</span>Segurança</h2>
         <p>
             Os dados são gravados em diretório privado do aplicativo, acessível apenas pelo próprio
-            Relatoid no dispositivo. Recomendamos manter o dispositivo protegido por bloqueio de tela.
+            Relatoid no dispositivo. Os backups no Google Drive ficam numa pasta privada do app,
+            protegidos pelas credenciais da conta Google do usuário. Recomendamos manter o dispositivo
+            e a conta Google protegidos por bloqueio de tela e verificação em duas etapas.
         </p>
 
-        <h2><span class="num">10.</span>Alterações nesta política</h2>
+        <h2><span class="num">11.</span>Alterações nesta política</h2>
         <p>
             Esta política pode ser atualizada para refletir alterações no aplicativo ou na
             legislação. A data de "Última atualização" no topo desta página indica a versão atual.
         </p>
 
-        <h2><span class="num">11.</span>Contato</h2>
+        <h2><span class="num">12.</span>Contato</h2>
         <p>
             Para dúvidas ou solicitações relacionadas a esta política, escreva para:
             <a href="mailto:fabiorrf89@hotmail.com">fabiorrf89@hotmail.com</a>.
